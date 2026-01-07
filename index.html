@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AutosHasa | Importación & Venta de Autos de Alta Gama</title>
+
+  <!-- SEO -->
+  <meta name="description" content="AutosHasa: importación estratégica de vehículos desde USA y venta de autos (incluyendo alta gama). Acceso a subastas, licencias, logística, aduanas e inventario premium.">
+  <meta name="keywords" content="autos importados honduras, comprar carros honduras, autos alta gama, copart honduras, importar carros usa, autoshasa">
+  <meta name="author" content="AutosHasa">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#05070f;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.10);
+      --border: rgba(255,255,255,.12);
+      --text:#eaf0ff;
+      --muted:#9aa7c7;
+      --primary:#4f7cff;
+      --primary2:#7c3aed;
+      --accent:#22c55e;
+      --warn:#f59e0b;
+      --shadow: 0 30px 80px rgba(0,0,0,.55);
+      --radius: 22px;
+      --max: 1200px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: radial-gradient(1200px 600px at 20% 0%, rgba(79,124,255,.28), transparent 60%),
+                  radial-gradient(900px 500px at 90% 20%, rgba(124,58,237,.24), transparent 55%),
+                  radial-gradient(1000px 700px at 50% 120%, rgba(34,197,94,.12), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      overflow-x:hidden;
+    }
+
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--max);margin:0 auto;padding:0 22px}
+
+    /* Top glow blobs */
+    .blob{
+      position:absolute; inset:auto; width:520px;height:520px; border-radius:999px;
+      filter: blur(70px);
+      opacity:.55; pointer-events:none; z-index:0;
+      animation: float 10s ease-in-out infinite;
+    }
+    .blob.b1{left:-180px; top:-200px; background: rgba(79,124,255,.55)}
+    .blob.b2{right:-220px; top:-120px; background: rgba(124,58,237,.50); animation-delay: -3s}
+    .blob.b3{left:25%; bottom:-260px; background: rgba(34,197,94,.28); animation-delay: -6s}
+    @keyframes float{
+      0%,100%{transform: translateY(0) translateX(0) scale(1)}
+      50%{transform: translateY(26px) translateX(18px) scale(1.03)}
+    }
+
+    /* NAV */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      background: rgba(5,7,15,.45);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+    }
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand .logo{
+      width:38px;height:38px;border-radius:12px;
+      background: linear-gradient(135deg, rgba(79,124,255,.9), rgba(124,58,237,.9));
+      display:grid; place-items:center;
+      box-shadow: 0 18px 50px rgba(79,124,255,.25);
+      border:1px solid rgba(255,255,255,.18);
+      overflow:hidden;
+    }
+    .brand .logo img{width:100%;height:100%;object-fit:cover;display:block}
+    .brand .name{font-weight:900; letter-spacing:.02em}
+    .brand .tag{font-size:.78rem;color:var(--muted); margin-top:2px}
+
+    .nav-links{display:flex; gap:18px; align-items:center}
+    .nav-links a{
+      font-size:.92rem; color: rgba(234,240,255,.86);
+      padding:10px 10px; border-radius:12px;
+      transition:.25s;
+    }
+    .nav-links a:hover{background: rgba(255,255,255,.06)}
+    .nav-cta{display:flex; gap:10px; align-items:center}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 16px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      transition:.25s;
+      font-weight:700;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-2px); background: rgba(255,255,255,.09)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(79,124,255,.95), rgba(124,58,237,.95));
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow: 0 22px 60px rgba(79,124,255,.18);
+    }
+    .btn.primary:hover{opacity:.95}
+    .btn.green{
+      background: linear-gradient(135deg, rgba(34,197,94,.95), rgba(16,185,129,.95));
+      border:1px solid rgba(255,255,255,.18);
+    }
+    .btn .dot{
+      width:9px; height:9px; border-radius:50%;
+      background: var(--accent);
+      margin-right:10px;
+      box-shadow: 0 0 20px rgba(34,197,94,.8);
+    }
+
+    /* HERO */
+    .hero{
+      position:relative;
+      padding: 90px 0 42px;
+      z-index:1;
+    }
+    .hero-grid{
+      display:grid; gap:26px;
+      grid-template-columns: 1.2fr .8fr;
+      align-items:stretch;
+    }
+    .kicker{
+      display:inline-flex; gap:10px; align-items:center;
+      padding:10px 14px; border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color: rgba(234,240,255,.92);
+      font-size:.86rem;
+      width:fit-content;
+    }
+    .kicker b{color: #cfe0ff}
+    .hero h1{
+      margin-top:18px;
+      font-size: clamp(2.5rem, 4.7vw, 4.4rem);
+      line-height:1.05;
+      font-weight: 900;
+      letter-spacing:-.02em;
+    }
+    .hero h1 .grad{
+      background: linear-gradient(135deg, #dbe7ff, #9ec2ff 35%, #bfa8ff 65%, #e9f2ff);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color: transparent;
+    }
+    .hero p{
+      margin-top:16px;
+      color: rgba(154,167,199,.95);
+      font-size:1.08rem;
+      max-width: 56ch;
+    }
+
+    .hero-actions{
+      margin-top:26px;
+      display:flex; flex-wrap:wrap; gap:12px;
+    }
+    .hero-actions .btn{padding:14px 18px}
+
+    .hero-badges{
+      margin-top:22px;
+      display:flex; flex-wrap:wrap; gap:10px;
+      color: rgba(234,240,255,.86);
+      font-size:.88rem;
+    }
+    .badge{
+      padding:10px 12px;
+      border-radius:14px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .badge strong{color:#eaf0ff}
+
+    /* Right hero card */
+    .hero-card{
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero-card::before{
+      content:"";
+      position:absolute; inset:-80px -80px auto auto;
+      width:240px; height:240px;
+      background: radial-gradient(circle, rgba(79,124,255,.40), transparent 60%);
+      filter: blur(10px);
+    }
+    .hero-card .inner{padding:22px}
+    .hero-card h3{font-size:1.05rem; font-weight:900}
+    .hero-card p{color: rgba(154,167,199,.92); margin-top:8px; font-size:.95rem}
+    .mini-grid{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .mini{
+      padding:14px 14px;
+      border-radius:16px;
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .mini .n{font-weight:900; font-size:1.2rem}
+    .mini .t{color: rgba(154,167,199,.92); font-size:.82rem; margin-top:4px}
+
+    .hero-card .line{
+      margin-top:14px;
+      padding:14px 14px;
+      border-radius:16px;
+      background: rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.10);
+      color: rgba(234,240,255,.92);
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      font-size:.92rem;
+    }
+    .pill{
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(34,197,94,.14);
+      border:1px solid rgba(34,197,94,.28);
+      color: #c8ffe0;
+      font-weight:800;
+      font-size:.8rem;
+      white-space:nowrap;
+    }
+
+    /* Sections */
+    .section{padding: 70px 0}
+    .section-head{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:18px; flex-wrap:wrap;
+      margin-bottom: 24px;
+    }
+    .section-head h2{
+      font-size: clamp(1.8rem, 2.8vw, 2.6rem);
+      line-height:1.1;
+      font-weight: 900;
+      letter-spacing:-.02em;
+    }
+    .section-head p{
+      color: rgba(154,167,199,.95);
+      max-width: 70ch;
+      font-size: 1.02rem;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .card{
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      padding: 22px;
+      transition: .28s ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .card:hover{
+      transform: translateY(-6px);
+      border-color: rgba(79,124,255,.35);
+      background: rgba(255,255,255,.07);
+    }
+    .card .icon{
+      width:42px;height:42px;border-radius:14px;
+      display:grid;place-items:center;
+      background: linear-gradient(135deg, rgba(79,124,255,.95), rgba(124,58,237,.75));
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow: 0 22px 60px rgba(79,124,255,.12);
+      margin-bottom: 12px;
+      font-weight:900;
+    }
+    .card h3{font-weight:900; font-size:1.1rem}
+    .card p{margin-top:8px;color: rgba(154,167,199,.95); font-size:.96rem}
+
+    /* Inventory */
+    .inventory{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap:16px;
+    }
+    .car{
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      overflow:hidden;
+      transition:.28s;
+    }
+    .car:hover{
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.07);
+    }
+    .car .img{
+      height:170px;
+      background:
+        radial-gradient(400px 200px at 20% 20%, rgba(79,124,255,.28), transparent 60%),
+        radial-gradient(420px 220px at 80% 10%, rgba(124,58,237,.25), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.15));
+      position:relative;
+    }
+    .car .img::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.50));
+    }
+    .car .img .label{
+      position:absolute; left:14px; top:14px; z-index:2;
+      padding:8px 10px; border-radius:999px;
+      background: rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.14);
+      font-weight:800; font-size:.78rem;
+    }
+    .car .info{padding:16px}
+    .car .title{font-weight:900}
+    .car .meta{margin-top:6px;color: rgba(154,167,199,.95); font-size:.9rem}
+    .car .row{
+      margin-top:14px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      color: rgba(234,240,255,.92);
+      font-size:.92rem;
+    }
+    .car .price{
+      font-weight:900;
+      background: rgba(79,124,255,.14);
+      border:1px solid rgba(79,124,255,.28);
+      padding:8px 10px; border-radius:12px;
+      white-space:nowrap;
+    }
+
+    /* Timeline */
+    .timeline{
+      display:grid;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .step{
+      display:flex; gap:14px; align-items:flex-start;
+      border-radius: var(--radius);
+      padding:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+    }
+    .step .num{
+      width:44px; height:44px; border-radius:14px;
+      display:grid; place-items:center;
+      background: rgba(79,124,255,.16);
+      border:1px solid rgba(79,124,255,.28);
+      font-weight:900;
+      box-shadow: 0 22px 60px rgba(79,124,255,.10);
+      flex:0 0 auto;
+    }
+    .step h4{font-weight:900}
+    .step p{color: rgba(154,167,199,.95); margin-top:6px; font-size:.95rem}
+
+    /* Testimonials */
+    .quotes{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap:16px;
+    }
+    .quote{
+      padding:22px;
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+    }
+    .quote .stars{color: #ffd38b; letter-spacing:2px}
+    .quote p{margin-top:10px; color: rgba(234,240,255,.90)}
+    .quote .who{margin-top:14px; color: rgba(154,167,199,.95); font-size:.92rem}
+    .quote .who b{color: rgba(234,240,255,.95)}
+
+    /* FAQ */
+    details{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      transition: .25s;
+    }
+    details + details{margin-top:12px}
+    summary{
+      cursor:pointer;
+      font-weight:900;
+      list-style:none;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px;
+    }
+    summary::-webkit-details-marker{display:none}
+    .chev{
+      width:34px;height:34px;border-radius:12px;
+      display:grid;place-items:center;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      color: rgba(234,240,255,.90);
+      flex:0 0 auto;
+      transition:.25s;
+    }
+    details[open] .chev{transform: rotate(180deg)}
+    details p{margin-top:10px;color: rgba(154,167,199,.95)}
+
+    /* CTA */
+    .cta{
+      margin-top: 26px;
+      border-radius: calc(var(--radius) + 6px);
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(800px 300px at 10% 0%, rgba(79,124,255,.26), transparent 55%),
+        radial-gradient(800px 300px at 90% 0%, rgba(124,58,237,.22), transparent 55%),
+        rgba(255,255,255,.05);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      align-items:center;
+    }
+    .cta h3{font-size:1.6rem; font-weight:900; line-height:1.12}
+    .cta p{margin-top:10px; color: rgba(154,167,199,.95)}
+    .cta .actions{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .cta .actions .btn{padding:14px 18px}
+
+    /* Footer */
+    footer{
+      margin-top: 70px;
+      padding: 46px 0;
+      border-top: 1px solid rgba(255,255,255,.10);
+      color: rgba(154,167,199,.95);
+    }
+    .foot{
+      display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;
+      align-items:center;
+    }
+    .foot small{opacity:.9}
+    .foot .links{display:flex; gap:14px; flex-wrap:wrap}
+    .foot .links a{opacity:.9}
+    .foot .links a:hover{opacity:1}
+
+    /* Reveal on scroll */
+    .reveal{opacity:0; transform: translateY(18px); transition: .7s ease}
+    .reveal.in{opacity:1; transform: translateY(0)}
+    .divider{
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.16), transparent);
+      margin: 42px 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+      .cta{grid-template-columns:1fr}
+      .cta .actions{justify-content:flex-start}
+      nav{padding-left: 18px; padding-right: 18px}
+      .nav-links{display:none}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Blobs -->
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
+  <!-- NAV -->
+  <div class="nav">
+    <div class="container">
+      <div class="nav-inner">
+        <div class="brand">
+          <div class="logo" id="logoBox" title="AutosHasa">
+            <!-- Si tienes logo, reemplaza LOGO_URL en el script al final -->
+            <img id="logoImg" alt="AutosHasa Logo" style="display:none">
+            <span id="logoFallback" style="font-weight:900">A</span>
+          </div>
+          <div>
+            <div class="name">AutosHasa</div>
+            <div class="tag">Importación & Venta de Autos • Premium</div>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="#servicios">Servicios</a>
+          <a href="#inventario">Inventario</a>
+          <a href="#proceso">Proceso</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contacto">Contacto</a>
+        </div>
+
+        <div class="nav-cta">
+          <a class="btn" href="#inventario">Ver inventario</a>
+          <a class="btn primary" id="btnWhats1" href="#">Cotizar por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="reveal">
+          <div class="kicker">⚡ <b>Alta Gama</b> • Importación Estratégica • Inventario Premium</div>
+          <h1>
+            Tu próximo auto no se busca.<br>
+            <span class="grad">Se construye el camino para traerlo.</span>
+          </h1>
+          <p>
+            En <b>AutosHasa</b> importamos vehículos desde Estados Unidos y también
+            vendemos autos seleccionados (incluyendo <b>alta gama</b>).
+            Operamos con un proceso profesional: acceso a subastas, licencias, logística y entrega final.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" id="btnWhats2" href="#"><span class="dot"></span>Hablar con un asesor</a>
+            <a class="btn" href="#proceso">Ver el proceso</a>
+            <a class="btn" href="#inventario">Explorar inventario</a>
+          </div>
+
+          <div class="hero-badges">
+            <div class="badge">✅ Proceso claro <strong>de principio a fin</strong></div>
+            <div class="badge">🔎 Evaluación antes de comprar</div>
+            <div class="badge">🚢 Logística + aduanas + entrega</div>
+            <div class="badge">💎 Selección <strong>Premium</strong></div>
+          </div>
+        </div>
+
+        <aside class="hero-card reveal">
+          <div class="inner">
+            <h3>Panel de confianza</h3>
+            <p>Un estándar premium para importar y vender vehículos con transparencia.</p>
+
+            <div class="mini-grid">
+              <div class="mini">
+                <div class="n" id="stat1">—</div>
+                <div class="t">Búsqueda y selección</div>
+              </div>
+              <div class="mini">
+                <div class="n" id="stat2">—</div>
+                <div class="t">Importación completa</div>
+              </div>
+              <div class="mini">
+                <div class="n" id="stat3">—</div>
+                <div class="t">Autos premium</div>
+              </div>
+              <div class="mini">
+                <div class="n" id="stat4">—</div>
+                <div class="t">Soporte continuo</div>
+              </div>
+            </div>
+
+            <div class="line">
+              <span>Modalidades</span>
+              <span class="pill">Importación • Venta • Encargo</span>
+            </div>
+
+            <div class="line">
+              <span>Entrega</span>
+              <span class="pill">Honduras</span>
+            </div>
+
+            <div class="line">
+              <span>Enfoque</span>
+              <span class="pill">Riesgo bajo</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="divider"></div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="servicios" class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <h2>Servicios que se sienten premium</h2>
+          <p>
+            AutosHasa no improvisa: operamos con proceso. Ya sea que quieras importar
+            tu vehículo o comprar uno de nuestro inventario, todo está diseñado para evitar sorpresas.
+          </p>
+        </div>
+      </div>
+
+      <div class="cards">
+        <div class="card reveal">
+          <div class="icon">1</div>
+          <h3>Importación desde USA</h3>
+          <p>Acceso a subastas, licencias, logística y aduanas. Tú eliges el auto, nosotros ejecutamos el camino.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">2</div>
+          <h3>Venta de Autos Premium</h3>
+          <p>Vehículos seleccionados y listos para entrega. Alta gama, SUV, pickups y más.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">3</div>
+          <h3>Encargo Personalizado</h3>
+          <p>Si buscas algo específico (marca, año, estilo), lo rastreamos y te traemos la mejor opción viable.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">4</div>
+          <h3>Evaluación & Asesoría</h3>
+          <p>Revisamos opciones, riesgos, costos y tiempos antes de comprar. Decisiones con información real.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">5</div>
+          <h3>Logística Internacional</h3>
+          <p>Coordinación de transporte, puertos, seguimiento y manejo de proceso hasta Honduras.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">6</div>
+          <h3>Transparencia</h3>
+          <p>Comunicación clara, pasos definidos y expectativas alineadas. Lo que se acuerda, se cumple.</p>
+        </div>
+      </div>
+
+      <div class="cta reveal" style="margin-top:22px">
+        <div>
+          <h3>¿Quieres importar o prefieres comprar premium ya listo?</h3>
+          <p>Te orientamos en la mejor ruta según tu presupuesto y el tipo de vehículo que buscas.</p>
+        </div>
+        <div class="actions">
+          <a class="btn green" id="btnWhats3" href="#"><span class="dot"></span>Hablar por WhatsApp</a>
+          <a class="btn" href="#inventario">Ver inventario</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INVENTORY -->
+  <section id="inventario" class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <h2>Inventario premium</h2>
+          <p>
+            Una muestra de cómo se verá tu catálogo. Aquí luego metemos fotos reales,
+            precios y detalles. (Por ahora es demo visual.)
+          </p>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap" class="reveal">
+          <a class="btn" href="#contacto">Solicitar lista completa</a>
+          <a class="btn primary" id="btnWhats4" href="#">Reservar / Consultar</a>
+        </div>
+      </div>
+
+      <div class="inventory">
+        <article class="car reveal">
+          <div class="img">
+            <div class="label">Alta Gama</div>
+          </div>
+          <div class="info">
+            <div class="title">SUV Premium • 2020+</div>
+            <div class="meta">Kilometraje verificado • Interior premium • Excelente condición</div>
+            <div class="row">
+              <span>Disponibilidad: <b>Limitada</b></span>
+              <span class="price">Consultar</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="car reveal">
+          <div class="img">
+            <div class="label">Importación</div>
+          </div>
+          <div class="info">
+            <div class="title">Pickup • 4x4 • Full</div>
+            <div class="meta">Ideal para trabajo + estilo • Evaluación antes de comprar</div>
+            <div class="row">
+              <span>Modalidad: <b>Encargo</b></span>
+              <span class="price">Cotizar</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="car reveal">
+          <div class="img">
+            <div class="label">Deportivo</div>
+          </div>
+          <div class="info">
+            <div class="title">Performance • Sport</div>
+            <div class="meta">Selección premium • Opciones desde subasta o inventario</div>
+            <div class="row">
+              <span>Estado: <b>En búsqueda</b></span>
+              <span class="price">Consultar</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="car reveal">
+          <div class="img">
+            <div class="label">Lista</div>
+          </div>
+          <div class="info">
+            <div class="title">Sedán • Ejecutivo</div>
+            <div class="meta">Confort • Seguridad • Eficiencia</div>
+            <div class="row">
+              <span>Entrega: <b>Rápida</b></span>
+              <span class="price">Consultar</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="cta reveal" style="margin-top:22px">
+        <div>
+          <h3>¿Buscas una marca/modelo exacto?</h3>
+          <p>Envíanos el vehículo que quieres (año, modelo, presupuesto) y te armamos una ruta realista: inventario o importación.</p>
+        </div>
+        <div class="actions">
+          <a class="btn primary" id="btnWhats5" href="#"><span class="dot"></span>Quiero un encargo</a>
+          <a class="btn" href="#proceso">Ver proceso</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="proceso" class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <h2>Proceso diseñado (no improvisado)</h2>
+          <p>
+            Importar o comprar premium con AutosHasa sigue un sistema claro: evaluación, compra, logística e integración final.
+          </p>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="step reveal">
+          <div class="num">1</div>
+          <div>
+            <h4>Brief + objetivo</h4>
+            <p>Definimos tu necesidad: inventario, encargo o importación. Presupuesto, modelo, prioridades y tiempos.</p>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="num">2</div>
+          <div>
+            <h4>Evaluación & selección</h4>
+            <p>Revisamos opciones y filtramos riesgos. Te proponemos alternativas viables y claras.</p>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="num">3</div>
+          <div>
+            <h4>Compra / Reserva</h4>
+            <p>Ejecutamos la compra en subasta o reservamos inventario premium según la opción elegida.</p>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="num">4</div>
+          <div>
+            <h4>Logística + Aduanas</h4>
+            <p>Transporte, puertos y proceso de importación hasta Honduras.</p>
+          </div>
+        </div>
+
+        <div class="step reveal">
+          <div class="num">5</div>
+          <div>
+            <h4>Entrega y cierre</h4>
+            <p>Entregamos y cerramos el proceso con comunicación clara y soporte post-venta (cuando aplique).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <h2>Confianza que se nota</h2>
+          <p>Sección demo — luego la llenamos con testimonios reales y fotos de entregas.</p>
+        </div>
+      </div>
+
+      <div class="quotes">
+        <div class="quote reveal">
+          <div class="stars">★★★★★</div>
+          <p>“Me guiaron desde el inicio, me explicaron todo y el proceso fue claro. Se siente profesional.”</p>
+          <div class="who"><b>Cliente</b> • Importación</div>
+        </div>
+        <div class="quote reveal">
+          <div class="stars">★★★★★</div>
+          <p>“El inventario premium está bien seleccionado. Se ve otra liga comparado a lo normal.”</p>
+          <div class="who"><b>Cliente</b> • Compra premium</div>
+        </div>
+        <div class="quote reveal">
+          <div class="stars">★★★★★</div>
+          <p>“Lo mejor: transparencia. Nada raro. Todo por pasos, con comunicación constante.”</p>
+          <div class="who"><b>Cliente</b> • Encargo</div>
+        </div>
+      </div>
+
+      <div class="cta reveal" style="margin-top:22px">
+        <div>
+          <h3>¿Listo para importarlo o comprarlo premium?</h3>
+          <p>Te atendemos rápido y te decimos la mejor ruta.</p>
+        </div>
+        <div class="actions">
+          <a class="btn green" id="btnWhats6" href="#"><span class="dot"></span>Escribir ahora</a>
+          <a class="btn" href="#faq">Ver FAQ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <h2>Preguntas frecuentes</h2>
+          <p>Respuestas cortas y claras. (Luego afinamos con tu política real y términos.)</p>
+        </div>
+      </div>
+
+      <details class="reveal">
+        <summary>
+          ¿Puedo importar aunque no tenga licencia de Copart?
+          <span class="chev">⌄</span>
+        </summary>
+        <p>Sí. Podemos trabajar bajo nuestras licencias y proceso, según la modalidad acordada.</p>
+      </details>
+
+      <details class="reveal">
+        <summary>
+          ¿Ustedes venden carros también, incluyendo alta gama?
+          <span class="chev">⌄</span>
+        </summary>
+        <p>Sí. Contamos con inventario premium y también realizamos encargos personalizados de alta gama.</p>
+      </details>
+
+      <details class="reveal">
+        <summary>
+          ¿Cómo sé el costo total antes de comprar?
+          <span class="chev">⌄</span>
+        </summary>
+        <p>Hacemos una evaluación previa con estimación realista de compra + logística + importación antes de ejecutar.</p>
+      </details>
+
+      <details class="reveal">
+        <summary>
+          ¿En qué ciudades entregan?
+          <span class="chev">⌄</span>
+        </summary>
+        <p>Entrega en Honduras. La logística final depende de la ciudad, y se define en la cotización.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contacto" class="section">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <h2>Contacto</h2>
+          <p>
+            Envíanos: <b>modelo</b>, <b>año</b>, <b>presupuesto</b> y si lo quieres por <b>inventario</b> o <b>importación</b>.
+            Te respondemos con una ruta clara.
+          </p>
+        </div>
+      </div>
+
+      <div class="cta reveal">
+        <div>
+          <h3>AutosHasa • Importación & Venta Premium</h3>
+          <p>Respuesta rápida. Proceso claro. Resultado premium.</p>
+        </div>
+        <div class="actions">
+          <a class="btn primary" id="btnWhats7" href="#"><span class="dot"></span>WhatsApp</a>
+          <a class="btn" href="#inventario">Ver inventario</a>
+        </div>
+      </div>
+
+      <footer class="reveal">
+        <div class="container" style="padding:0">
+          <div class="foot">
+            <div>
+              <div style="font-weight:900;color:#eaf0ff">AutosHasa</div>
+              <small>© 2026 AutosHasa. Todos los derechos reservados.</small>
+            </div>
+            <div class="links">
+              <a href="#servicios">Servicios</a>
+              <a href="#inventario">Inventario</a>
+              <a href="#proceso">Proceso</a>
+              <a href="#faq">FAQ</a>
+            </div>
+          </div>
+          <div style="margin-top:14px; opacity:.9">
+            <small>Powered by CorosDev</small>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </section>
+
+  <script>
+    // ==========================
+    // CONFIG (EDITA AQUÍ)
+    // ==========================
+    const LOGO_URL = ""; // Ej: "https://tudominio.com/logo.png" (opcional)
+    const WHATSAPP_NUMBER = "50431750453"; // Ej: "50499999999"
+    const WHATSAPP_MESSAGE = encodeURIComponent(
+      "Hola AutosHasa, quiero información. Busco: (Modelo/Año) | Presupuesto: | Modalidad: (Inventario/Importación/Encargo)"
+    );
+
+    // Set WhatsApp links
+    const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`;
+    const ids = ["btnWhats1","btnWhats2","btnWhats3","btnWhats4","btnWhats5","btnWhats6","btnWhats7"];
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.href = waLink;
+    });
+
+    // Logo handling
+    const logoImg = document.getElementById("logoImg");
+    const fallback = document.getElementById("logoFallback");
+    if (LOGO_URL && logoImg) {
+      logoImg.src = LOGO_URL;
+      logoImg.onload = () => {
+        logoImg.style.display = "block";
+        fallback.style.display = "none";
+      };
+      logoImg.onerror = () => {
+        logoImg.style.display = "none";
+        fallback.style.display = "block";
+      };
+    }
+
+    // Animated stats (simple, premium feel)
+    const stats = [
+      { id: "stat1", to: 100, suffix: "%"},
+      { id: "stat2", to: 24, suffix: "/7"},
+      { id: "stat3", to: 5, suffix: "★"},
+      { id: "stat4", to: 1, suffix: " ruta"}
+    ];
+    function animateNumber(el, to, suffix){
+      let start = 0;
+      const dur = 900;
+      const t0 = performance.now();
+      function tick(t){
+        const p = Math.min((t - t0) / dur, 1);
+        const v = Math.round(start + (to - start) * p);
+        el.textContent = v + (suffix || "");
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if (e.isIntersecting){
+          e.target.classList.add("in");
+          // Start stats when hero card appears
+          if (e.target.classList.contains("hero-card")){
+            stats.forEach(s=>{
+              const el = document.getElementById(s.id);
+              if (el && el.textContent === "—") animateNumber(el, s.to, s.suffix);
+            });
+          }
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll(".reveal").forEach(el=> io.observe(el));
+  </script>
+</body>
+</html>
